@@ -6,11 +6,11 @@
 window.ENERGY_NEXUS = {
   company: "㈜에너지넥서스",
   ceo: "김형중",
-  email: "",
+  email: "energy@energynexus.co.kr",
   phone: "",
-  bizNumber: "",
+  bizNumber: "000-00-00000",
   address: "강원특별자치도 강릉시",
   addressDetail: "",
-  googleFormUrl: "",
+  googleFormUrl: "https://forms.gle/W9WqH9WZPqFvjUZQ9",
   insightLinks: ["", "", ""],
 };
