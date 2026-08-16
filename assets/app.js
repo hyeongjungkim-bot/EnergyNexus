@@ -1,0 +1,250 @@
+(function () {
+  const cfg = window.ENERGY_NEXUS || {};
+  const inIframe = window.self !== window.top;
+  document.documentElement.classList.toggle("in-iframe", inIframe);
+
+  const INSIGHTS = [
+    {
+      tag: "Energy Insights",
+      title: "AI 데이터센터, 전력회사와 개발사는 어떻게 협력해야 할까",
+      excerpt:
+        "AI 데이터센터의 전력수요 증가에 대응하기 위해 전력회사와 개발사가 함께 고려해야 할 협력 방향을 살펴봅니다.",
+      url: cfg.insightLinks && cfg.insightLinks[0],
+    },
+    {
+      tag: "Column",
+      title: "‘더 많은 전기’로는 부족…공간·시간·운영 병목을 풀어라",
+      excerpt:
+        "전력수요 증가에 대응하기 위해 전력공급 확대와 함께 해결해야 할 전력망의 세 가지 병목을 짚어봅니다.",
+      url: cfg.insightLinks && cfg.insightLinks[1],
+    },
+    {
+      tag: "Energy Insights",
+      title: "ATM, 계량기 앞과 뒤를 함께 보다",
+      excerpt:
+        "전력계량기의 앞과 뒤에서 이루어지는 다양한 에너지 활동을 통합적으로 바라보는 ATM의 의미를 살펴봅니다.",
+      url: cfg.insightLinks && cfg.insightLinks[2],
+    },
+  ];
+
+  const pending = "준비 중";
+  const email = (cfg.email || "").trim();
+  const phone = (cfg.phone || "").trim();
+  const bizNumber = (cfg.bizNumber || "").trim();
+  const address = [cfg.address, cfg.addressDetail].filter(Boolean).join(" ");
+
+  function textOrPending(value) {
+    return value || pending;
+  }
+
+  function renderContactMeta() {
+    const root = document.getElementById("contact-meta");
+    if (!root) return;
+    const rows = [
+      ["이메일", email ? '<a href="mailto:' + email + '">' + email + "</a>" : pending],
+      ["대표전화", phone ? '<a href="tel:' + phone.replace(/\s/g, "") + '">' + phone + "</a>" : pending],
+      ["본점", address || pending],
+    ];
+    root.innerHTML = rows
+      .map(function (row) {
+        return "<div><dt>" + row[0] + "</dt><dd>" + row[1] + "</dd></div>";
+      })
+      .join("");
+  }
+
+  function renderFooter() {
+    const legal = document.getElementById("footer-legal");
+    if (!legal) return;
+    legal.innerHTML = [
+      (cfg.company || "㈜에너지넥서스") + "  |  대표이사 " + (cfg.ceo || "김형중"),
+      "사업자등록번호  " + textOrPending(bizNumber),
+      "본점  " + textOrPending(address),
+      "대표전화  " + textOrPending(phone) + "  |  이메일  " + textOrPending(email),
+    ].join("<br />");
+  }
+
+  function renderInsights() {
+    const list = document.getElementById("insight-list");
+    if (!list) return;
+    list.innerHTML = INSIGHTS.map(function (item, index) {
+      return (
+        '<button class="insight-card" type="button" data-insight="' +
+        index +
+        '">' +
+        '<span class="tag">' +
+        item.tag +
+        "</span>" +
+        "<div><h3>" +
+        item.title +
+        "</h3><p>" +
+        item.excerpt +
+        "</p></div>" +
+        '<span class="more">' +
+        (item.url ? "원문 보기" : "미리보기") +
+        "</span>" +
+        "</button>"
+      );
+    }).join("");
+  }
+
+  const insightModal = document.getElementById("insight-modal");
+  const privacyModal = document.getElementById("privacy-modal");
+
+  function openInsight(index) {
+    const item = INSIGHTS[index];
+    if (!item || !insightModal) return;
+    document.getElementById("insight-modal-tag").textContent = item.tag;
+    document.getElementById("insight-modal-title").textContent = item.title;
+    document.getElementById("insight-modal-body").textContent = item.excerpt;
+    const link = document.getElementById("insight-modal-link");
+    if (item.url) {
+      link.hidden = false;
+      link.href = item.url;
+    } else {
+      link.hidden = true;
+      document.getElementById("insight-modal-body").textContent =
+        item.excerpt + " 상세 게시물은 연결 주소가 등록되면 이 화면에서 바로 이동합니다.";
+    }
+    insightModal.showModal();
+  }
+
+  function closeModals() {
+    [insightModal, privacyModal].forEach(function (dialog) {
+      if (dialog && dialog.open) dialog.close();
+    });
+  }
+
+  function scrollToHash() {
+    const hash = (location.hash || "#home").slice(1);
+    if (hash === "privacy") {
+      if (privacyModal && !privacyModal.open) privacyModal.showModal();
+      return;
+    }
+    if (privacyModal && privacyModal.open) privacyModal.close();
+    const target = document.getElementById(hash) || document.getElementById("home");
+    if (!target) return;
+    const header = document.querySelector(".site-header");
+    const offset = header ? header.offsetHeight + 8 : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  }
+
+  function setActiveNav() {
+    const sections = ["home", "about", "greeting", "services", "insights", "contact"];
+    const headerH = (document.querySelector(".site-header") || {}).offsetHeight || 0;
+    let current = "home";
+    sections.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.getBoundingClientRect().top - headerH - 24 <= 0) current = id;
+    });
+    document.querySelectorAll(".nav a").forEach(function (link) {
+      const href = (link.getAttribute("href") || "").slice(1);
+      link.classList.toggle("is-active", href === current || (current === "home" && href === "home"));
+    });
+  }
+
+  function postHeight() {
+    if (!inIframe) return;
+    const height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    parent.postMessage({ type: "energy-nexus-resize", height: height }, "*");
+  }
+
+  const toggle = document.querySelector(".nav-toggle");
+  const nav = document.getElementById("site-nav");
+  toggle.addEventListener("click", function () {
+    const open = !nav.classList.contains("is-open");
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+  });
+
+  nav.addEventListener("click", function (event) {
+    if (event.target.closest("a")) {
+      nav.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  document.getElementById("insight-list").addEventListener("click", function (event) {
+    const button = event.target.closest("[data-insight]");
+    if (!button) return;
+    openInsight(Number(button.getAttribute("data-insight")));
+  });
+
+  document.querySelectorAll("[data-close]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      closeModals();
+      if (location.hash === "#privacy") history.replaceState(null, "", "#contact");
+    });
+  });
+
+  [insightModal, privacyModal].forEach(function (dialog) {
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) {
+        dialog.close();
+        if (dialog === privacyModal && location.hash === "#privacy") {
+          history.replaceState(null, "", "#contact");
+        }
+      }
+    });
+  });
+
+  const form = document.getElementById("contact-form");
+  const note = document.getElementById("form-note");
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const data = new FormData(form);
+    if (cfg.googleFormUrl) {
+      window.open(cfg.googleFormUrl, "_blank", "noopener");
+      return;
+    }
+    if (!email) {
+      note.hidden = false;
+      note.textContent =
+        "대표 이메일이 등록되면 접수가 시작됩니다. assets/config.js의 email 또는 googleFormUrl을 입력해 주세요.";
+      return;
+    }
+    const body = [
+      "이름: " + data.get("name"),
+      "소속: " + (data.get("org") || "-"),
+      "이메일: " + data.get("email"),
+      "연락처: " + (data.get("phone") || "-"),
+      "유형: " + data.get("type"),
+      "",
+      data.get("message"),
+    ].join("\n");
+    const href =
+      "mailto:" +
+      encodeURIComponent(email) +
+      "?subject=" +
+      encodeURIComponent("[에너지넥서스 문의] " + data.get("type")) +
+      "&body=" +
+      encodeURIComponent(body);
+    window.location.href = href;
+  });
+
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link || event.metaKey || event.ctrlKey) return;
+    const hash = link.getAttribute("href");
+    if (!hash || hash === "#") return;
+    event.preventDefault();
+    if (location.hash === hash) scrollToHash();
+    else location.hash = hash;
+  });
+
+  window.addEventListener("hashchange", scrollToHash);
+  window.addEventListener("load", function () {
+    if (location.hash) scrollToHash();
+    postHeight();
+  });
+  window.addEventListener("scroll", setActiveNav, { passive: true });
+  window.addEventListener("resize", postHeight);
+
+  renderContactMeta();
+  renderFooter();
+  renderInsights();
+  setActiveNav();
+  postHeight();
+})();
