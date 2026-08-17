@@ -11,6 +11,6 @@ window.ENERGY_NEXUS = {
   bizNumber: "000-00-00000",
   address: "강원특별자치도 강릉시",
   addressDetail: "",
-  googleFormUrl: "https://forms.gle/W9WqH9WZPqFvjUZQ9",
+  googleFormUrl: "https://forms.gle/N78g3VzW2U2iMxEV6",
   insightLinks: ["", "", ""],
 };
