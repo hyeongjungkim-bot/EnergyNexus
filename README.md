@@ -18,7 +18,7 @@ python3 -m http.server 4173
 
 - `email`, `phone`, `bizNumber`, `addressDetail`
 - 인사이트 원문 주소: `insightLinks`
-- Google 설문지로 문의 받기: `googleFormUrl`
+- Google 설문지: `googleFormUrl` · `googleFormAction` · `googleFormFields` (문의 화면에서 바로 접수)
 
 값이 비어 있으면 화면에 “준비 중”으로 표시됩니다.
 
@@ -32,7 +32,7 @@ python3 -m http.server 4173
 
 페이지 중간 삽입을 쓸 경우, 임베드 상자 높이를 충분히 늘려야 합니다. 사이트 내부 스크롤과 Google Sites 스크롤이 겹치면 전체 페이지 삽입으로 바꾸는 것이 낫습니다.
 
-문의 폼은 Google 설문지 URL을 `googleFormUrl`에 넣으면 새 탭으로 열립니다. Google Sites와 같은 계정에서 설문을 만들면 회신 관리가 쉽습니다.
+문의 화면은 기존 레이아웃을 유지하고, 제출 시 [Energy Nexus 설문지](https://forms.gle/N78g3VzW2U2iMxEV6)로 접수됩니다. 응답은 Google 설문지 또는 연결된 스프레드시트에서 확인합니다.
 
 ## 1차 오픈 전 확인할 항목
 

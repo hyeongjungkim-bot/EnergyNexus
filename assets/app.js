@@ -192,19 +192,82 @@
 
   const form = document.getElementById("contact-form");
   const note = document.getElementById("form-note");
+  const submitBtn = form.querySelector('button[type="submit"]');
+  let formBusy = false;
+
+  function showFormNote(message, ok) {
+    note.hidden = false;
+    note.textContent = message;
+    note.classList.toggle("is-success", Boolean(ok));
+  }
+
+  function submitToGoogleForm(data) {
+    const fields = cfg.googleFormFields || {};
+    const hidden = document.createElement("form");
+    hidden.action = cfg.googleFormAction;
+    hidden.method = "POST";
+    hidden.target = "google-form-frame";
+    hidden.acceptCharset = "UTF-8";
+    hidden.style.display = "none";
+
+    const payload = {
+      name: data.get("name") || "",
+      org: data.get("org") || "",
+      email: data.get("email") || "",
+      phone: data.get("phone") || "",
+      type: data.get("type") || "",
+      message: data.get("message") || "",
+      agree: cfg.googleFormAgreeValue || "",
+    };
+
+    Object.keys(payload).forEach(function (key) {
+      if (!fields[key]) return;
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = fields[key];
+      input.value = payload[key];
+      hidden.appendChild(input);
+    });
+
+    document.body.appendChild(hidden);
+    hidden.submit();
+    hidden.remove();
+  }
+
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+    if (formBusy) return;
+    if (!form.reportValidity()) return;
+
     const data = new FormData(form);
+
+    if (cfg.googleFormAction && cfg.googleFormFields) {
+      formBusy = true;
+      submitBtn.disabled = true;
+      submitToGoogleForm(data);
+      window.setTimeout(function () {
+        form.reset();
+        formBusy = false;
+        submitBtn.disabled = false;
+        showFormNote("문의가 접수되었습니다. 내용을 확인한 후 연락드리겠습니다.", true);
+        postHeight();
+      }, 1200);
+      return;
+    }
+
     if (cfg.googleFormUrl) {
       window.open(cfg.googleFormUrl, "_blank", "noopener");
       return;
     }
+
     if (!email) {
-      note.hidden = false;
-      note.textContent =
-        "대표 이메일이 등록되면 접수가 시작됩니다. assets/config.js의 email 또는 googleFormUrl을 입력해 주세요.";
+      showFormNote(
+        "대표 이메일이 등록되면 접수가 시작됩니다. assets/config.js의 email 또는 googleFormUrl을 입력해 주세요.",
+        false
+      );
       return;
     }
+
     const body = [
       "이름: " + data.get("name"),
       "소속: " + (data.get("org") || "-"),
