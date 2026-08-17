@@ -13,7 +13,7 @@ window.ENERGY_NEXUS = {
   addressDetail: "",
   googleFormUrl: "https://forms.gle/N78g3VzW2U2iMxEV6",
   googleFormAction:
-    "https://docs.google.com/forms/d/e/1FAIpQLSfPG7U-vmDhxj_5ARh-Ikq6_b1JhWAjxQeu2G4LccBW7MoXgw/formResponse",
+    "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/formResponse",
   googleFormFields: {
     name: "entry.1943137095",
     org: "entry.190040979",
