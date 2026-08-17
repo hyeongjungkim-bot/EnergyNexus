@@ -272,21 +272,21 @@
             <div class="field-row">
               <label>
                 이름
-                <input type="text" name="name" autocomplete="name" required />
+                <input type="text" name="name" autocomplete="name" enterkeyhint="next" required />
               </label>
               <label>
                 소속
-                <input type="text" name="org" autocomplete="organization" />
+                <input type="text" name="org" autocomplete="organization" enterkeyhint="next" />
               </label>
             </div>
             <div class="field-row">
               <label>
                 이메일
-                <input type="email" name="email" autocomplete="email" required />
+                <input type="email" name="email" autocomplete="email" inputmode="email" enterkeyhint="next" required />
               </label>
               <label>
                 연락처
-                <input type="tel" name="phone" autocomplete="tel" />
+                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" enterkeyhint="next" />
               </label>
             </div>
             <label>
@@ -301,7 +301,7 @@
             </label>
             <label>
               문의 내용
-              <textarea name="message" rows="6" required></textarea>
+              <textarea name="message" rows="6" enterkeyhint="send" required></textarea>
             </label>
             <label class="check">
               <input type="checkbox" name="agree" required />

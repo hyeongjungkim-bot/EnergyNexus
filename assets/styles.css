@@ -621,20 +621,46 @@ p {
   font-weight: 600;
 }
 
-.contact-form input,
+.contact-form input:not([type="checkbox"]),
 .contact-form select,
 .contact-form textarea {
   width: 100%;
+  max-width: 100%;
   border: 1px solid var(--line);
   background: var(--paper);
   padding: 11px 12px;
   outline: none;
+  font-size: 16px;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.contact-form input:focus,
+.contact-form select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 16px) calc(50% - 3px), calc(100% - 11px) calc(50% - 3px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 32px;
+}
+
+.contact-form input:not([type="checkbox"]):focus,
 .contact-form select:focus,
 .contact-form textarea:focus {
   border-color: var(--teal-deep);
+}
+
+.contact-form .is-error {
+  border-color: #b42318;
+}
+
+.contact-form .btn {
+  width: 100%;
+  min-height: 48px;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .check {
@@ -646,8 +672,13 @@ p {
 }
 
 .check input {
-  width: auto;
-  margin-top: 4px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin-top: 2px;
+  accent-color: var(--teal-deep);
+  -webkit-appearance: checkbox;
+  appearance: checkbox;
 }
 
 .check a {

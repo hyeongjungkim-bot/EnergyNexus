@@ -201,15 +201,44 @@
     note.classList.toggle("is-success", Boolean(ok));
   }
 
-  function submitToGoogleForm(data) {
-    const fields = cfg.googleFormFields || {};
-    const hidden = document.createElement("form");
-    hidden.action = cfg.googleFormAction;
-    hidden.method = "POST";
-    hidden.target = "google-form-frame";
-    hidden.acceptCharset = "UTF-8";
-    hidden.style.display = "none";
+  function clearFieldErrors() {
+    form.querySelectorAll(".is-error").forEach(function (el) {
+      el.classList.remove("is-error");
+    });
+  }
 
+  function validateContactForm() {
+    clearFieldErrors();
+    const checks = [
+      { el: form.elements.name, msg: "이름을 입력해 주세요." },
+      { el: form.elements.email, msg: "이메일을 입력해 주세요." },
+      { el: form.elements.type, msg: "문의 유형을 선택해 주세요." },
+      { el: form.elements.message, msg: "문의 내용을 입력해 주세요." },
+      { el: form.elements.agree, msg: "개인정보 수집·이용에 동의해 주세요." },
+    ];
+
+    for (let i = 0; i < checks.length; i += 1) {
+      const field = checks[i];
+      const el = field.el;
+      if (!el) continue;
+      const empty =
+        el.type === "checkbox" ? !el.checked : !String(el.value || "").trim();
+      const invalid = empty || (typeof el.checkValidity === "function" && !el.checkValidity());
+      if (!invalid) continue;
+      el.classList.add("is-error");
+      el.focus();
+      el.scrollIntoView({ block: "center", inline: "nearest" });
+      showFormNote(empty ? field.msg : el.validationMessage || field.msg, false);
+      return false;
+    }
+
+    note.hidden = true;
+    return true;
+  }
+
+  function buildGoogleFormBody(data) {
+    const fields = cfg.googleFormFields || {};
+    const params = new URLSearchParams();
     const payload = {
       name: data.get("name") || "",
       org: data.get("org") || "",
@@ -219,39 +248,89 @@
       message: data.get("message") || "",
       agree: cfg.googleFormAgreeValue || "",
     };
-
     Object.keys(payload).forEach(function (key) {
       if (!fields[key]) return;
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.name = fields[key];
-      input.value = payload[key];
-      hidden.appendChild(input);
+      params.append(fields[key], payload[key]);
     });
-
-    document.body.appendChild(hidden);
-    hidden.submit();
-    hidden.remove();
+    return params;
   }
+
+  function submitToGoogleForm(data) {
+    const params = buildGoogleFormBody(data);
+    if (typeof fetch === "function") {
+      return fetch(cfg.googleFormAction, {
+        method: "POST",
+        mode: "no-cors",
+        body: params,
+      });
+    }
+
+    return new Promise(function (resolve) {
+      const iframe = document.getElementById("google-form-frame");
+      const hidden = document.createElement("form");
+      hidden.action = cfg.googleFormAction;
+      hidden.method = "POST";
+      hidden.target = "google-form-frame";
+      hidden.acceptCharset = "UTF-8";
+      hidden.setAttribute("aria-hidden", "true");
+      hidden.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0;";
+      params.forEach(function (value, key) {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = value;
+        hidden.appendChild(input);
+      });
+      let done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        window.setTimeout(function () {
+          if (hidden.parentNode) hidden.parentNode.removeChild(hidden);
+        }, 400);
+        resolve();
+      }
+      if (iframe) iframe.addEventListener("load", finish, { once: true });
+      document.body.appendChild(hidden);
+      hidden.submit();
+      window.setTimeout(finish, 2000);
+    });
+  }
+
+  form.addEventListener("input", function (event) {
+    const target = event.target;
+    if (target && target.classList) target.classList.remove("is-error");
+  });
+  form.addEventListener("change", function (event) {
+    const target = event.target;
+    if (target && target.classList) target.classList.remove("is-error");
+  });
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     if (formBusy) return;
-    if (!form.reportValidity()) return;
+    if (!validateContactForm()) return;
 
     const data = new FormData(form);
 
     if (cfg.googleFormAction && cfg.googleFormFields) {
       formBusy = true;
       submitBtn.disabled = true;
-      submitToGoogleForm(data);
-      window.setTimeout(function () {
-        form.reset();
-        formBusy = false;
-        submitBtn.disabled = false;
-        showFormNote("문의가 접수되었습니다. 내용을 확인한 후 연락드리겠습니다.", true);
-        postHeight();
-      }, 1200);
+      showFormNote("문의를 접수하는 중입니다.", true);
+      submitToGoogleForm(data)
+        .then(function () {
+          form.reset();
+          clearFieldErrors();
+          showFormNote("문의가 접수되었습니다. 내용을 확인한 후 연락드리겠습니다.", true);
+        })
+        .catch(function () {
+          showFormNote("접수가 완료되지 않았습니다. 잠시 후 다시 시도해 주세요.", false);
+        })
+        .then(function () {
+          formBusy = false;
+          submitBtn.disabled = false;
+          postHeight();
+        });
       return;
     }
 
