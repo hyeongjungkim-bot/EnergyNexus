@@ -207,11 +207,20 @@
     });
   }
 
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+  }
+
   function validateContactForm() {
     clearFieldErrors();
     const checks = [
       { el: form.elements.name, msg: "이름을 입력해 주세요." },
-      { el: form.elements.email, msg: "이메일을 입력해 주세요." },
+      {
+        el: form.elements.email,
+        msg: "이메일을 입력해 주세요.",
+        format: isValidEmail,
+        formatMsg: "올바른 이메일 주소를 입력해 주세요. 예: name@example.com",
+      },
       { el: form.elements.type, msg: "문의 유형을 선택해 주세요." },
       { el: form.elements.message, msg: "문의 내용을 입력해 주세요." },
       { el: form.elements.agree, msg: "개인정보 수집·이용에 동의해 주세요." },
@@ -223,12 +232,12 @@
       if (!el) continue;
       const empty =
         el.type === "checkbox" ? !el.checked : !String(el.value || "").trim();
-      const invalid = empty || (typeof el.checkValidity === "function" && !el.checkValidity());
-      if (!invalid) continue;
+      const badFormat = !empty && field.format && !field.format(el.value);
+      if (!empty && !badFormat) continue;
       el.classList.add("is-error");
       el.focus();
       el.scrollIntoView({ block: "center", inline: "nearest" });
-      showFormNote(empty ? field.msg : el.validationMessage || field.msg, false);
+      showFormNote(empty ? field.msg : field.formatMsg || field.msg, false);
       return false;
     }
 
@@ -242,7 +251,7 @@
     const payload = {
       name: data.get("name") || "",
       org: data.get("org") || "",
-      email: data.get("email") || "",
+      email: String(data.get("email") || "").trim(),
       phone: data.get("phone") || "",
       type: data.get("type") || "",
       message: data.get("message") || "",
