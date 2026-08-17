@@ -11,7 +11,7 @@ window.ENERGY_NEXUS = {
   bizNumber: "000-00-00000",
   address: "강원특별자치도 강릉시",
   addressDetail: "",
-  googleFormUrl: "https://forms.gle/C7zp1FRRPZUyN44A8",
+  googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/viewform",
   googleFormAction:
     "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/formResponse",
   googleFormFields: {
@@ -23,5 +23,6 @@ window.ENERGY_NEXUS = {
     message: "entry.1250138803",
     agree: "entry.813720148",
   },
-  googleFormAgreeValue: "[필수] 문의 처리를 위한 개인정보 수집 및 이용에 동의합니다.",  insightLinks: ["", "", ""],
+  googleFormAgreeValue: "[필수] 문의 처리를 위한 개인정보 수집 및 이용에 동의합니다.",
+  insightLinks: ["", "", ""],
 };
