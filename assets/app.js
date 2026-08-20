@@ -128,7 +128,7 @@
   }
 
   function setActiveNav() {
-    const sections = ["home", "about", "greeting", "services", "insights", "contact"];
+    const sections = ["home", "about", "greeting", "competency", "services", "insights", "contact"];
     const headerH = (document.querySelector(".site-header") || {}).offsetHeight || 0;
     let current = "home";
     sections.forEach(function (id) {

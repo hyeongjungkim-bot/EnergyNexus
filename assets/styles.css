@@ -462,6 +462,33 @@ p {
   margin-bottom: 48px;
 }
 
+.competency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.competency-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--teal);
+  padding: 28px 24px;
+}
+
+.competency-en {
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin: 0 0 10px;
+}
+
+.competency-card p + p {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0;
+}
+
 .service-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -885,7 +912,8 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .service-grid {
+  .service-grid,
+  .competency-grid {
     grid-template-columns: 1fr;
   }
 
