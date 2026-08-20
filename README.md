@@ -16,7 +16,7 @@ python3 -m http.server 4173
 
 `assets/config.js` 만 수정하면 됩니다.
 
-- `email`, `phone`, `bizNumber`, `addressDetail`
+- `email`, `bizNumber`, `addressDetail`
 - 인사이트 원문 주소: `insightLinks`
 - Google 설문지: `googleFormUrl` · `googleFormAction` · `googleFormFields` (문의 화면에서 바로 접수)
 
@@ -36,7 +36,7 @@ python3 -m http.server 4173
 
 ## 1차 오픈 전 확인할 항목
 
-- 대표 이메일, 전화번호, 사업자등록번호, 본점 상세 주소
+- 대표 이메일, 사업자등록번호, 본점 상세 주소
 - 설계·감리 등 등록업무 공개 문구
 - 인사이트 게시물 링크
 - 개인정보처리방침 최종 검토

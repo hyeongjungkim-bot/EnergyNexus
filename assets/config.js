@@ -7,7 +7,6 @@ window.ENERGY_NEXUS = {
   company: "㈜에너지넥서스",
   ceo: "김형중",
   email: "energynexus@energynexus.kr",
-  phone: "",
   bizNumber: "000-00-00000",
   address: "강원특별자치도 강릉시",
   addressDetail: "",

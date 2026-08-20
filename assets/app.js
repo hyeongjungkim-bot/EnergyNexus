@@ -29,7 +29,6 @@
 
   const pending = "준비 중";
   const email = (cfg.email || "").trim();
-  const phone = (cfg.phone || "").trim();
   const bizNumber = (cfg.bizNumber || "").trim();
   const address = [cfg.address, cfg.addressDetail].filter(Boolean).join(" ");
 
@@ -42,7 +41,6 @@
     if (!root) return;
     const rows = [
       ["이메일", email ? '<a href="mailto:' + email + '">' + email + "</a>" : pending],
-      ["대표전화", phone ? '<a href="tel:' + phone.replace(/\s/g, "") + '">' + phone + "</a>" : pending],
       ["본점", address || pending],
     ];
     root.innerHTML = rows
@@ -59,7 +57,7 @@
       (cfg.company || "㈜에너지넥서스") + "  |  대표이사 " + (cfg.ceo || "김형중"),
       "사업자등록번호  " + textOrPending(bizNumber),
       "본점  " + textOrPending(address),
-      "대표전화  " + textOrPending(phone) + "  |  이메일  " + textOrPending(email),
+      "이메일  " + textOrPending(email),
     ].join("<br />");
   }
 
