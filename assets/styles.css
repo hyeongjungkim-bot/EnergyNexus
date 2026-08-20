@@ -403,6 +403,15 @@ p {
   font-size: 14px;
 }
 
+.greeting-portrait {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  margin-top: 28px;
+  border: 1px solid var(--line);
+}
+
 .credentials {
   background: var(--navy);
   color: var(--white);
