@@ -245,64 +245,32 @@
     return true;
   }
 
-  function buildGoogleFormBody(data) {
-    const fields = cfg.googleFormFields || {};
-    const params = new URLSearchParams();
-    const payload = {
-      name: data.get("name") || "",
-      org: data.get("org") || "",
-      email: String(data.get("email") || "").trim(),
-      phone: data.get("phone") || "",
-      type: data.get("type") || "",
-      message: data.get("message") || "",
-      agree: cfg.googleFormAgreeValue || "",
+  function buildFormSubmitPayload(data) {
+    const type = data.get("type") || "";
+    const email = String(data.get("email") || "").trim();
+    return {
+      이름: data.get("name") || "",
+      소속: data.get("org") || "-",
+      이메일: email,
+      연락처: data.get("phone") || "-",
+      "문의 유형": type,
+      "문의 내용": data.get("message") || "",
+      _subject: "[에너지넥서스 문의] " + type,
+      _template: "table",
+      _captcha: "false",
+      _replyto: email,
     };
-    Object.keys(payload).forEach(function (key) {
-      if (!fields[key]) return;
-      params.append(fields[key], payload[key]);
-    });
-    return params;
   }
 
-  function submitToGoogleForm(data) {
-    const params = buildGoogleFormBody(data);
-    if (typeof fetch === "function") {
-      return fetch(cfg.googleFormAction, {
-        method: "POST",
-        mode: "no-cors",
-        body: params,
-      });
-    }
-
-    return new Promise(function (resolve) {
-      const iframe = document.getElementById("google-form-frame");
-      const hidden = document.createElement("form");
-      hidden.action = cfg.googleFormAction;
-      hidden.method = "POST";
-      hidden.target = "google-form-frame";
-      hidden.acceptCharset = "UTF-8";
-      hidden.setAttribute("aria-hidden", "true");
-      hidden.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0;";
-      params.forEach(function (value, key) {
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = value;
-        hidden.appendChild(input);
-      });
-      let done = false;
-      function finish() {
-        if (done) return;
-        done = true;
-        window.setTimeout(function () {
-          if (hidden.parentNode) hidden.parentNode.removeChild(hidden);
-        }, 400);
-        resolve();
-      }
-      if (iframe) iframe.addEventListener("load", finish, { once: true });
-      document.body.appendChild(hidden);
-      hidden.submit();
-      window.setTimeout(finish, 2000);
+  function submitToFormSubmit(data) {
+    const to = (cfg.formSubmitTo || "").trim();
+    return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(buildFormSubmitPayload(data)),
+    }).then(function (res) {
+      if (!res.ok) throw new Error("formsubmit request failed");
+      return res.json();
     });
   }
 
@@ -322,11 +290,11 @@
 
     const data = new FormData(form);
 
-    if (cfg.googleFormAction && cfg.googleFormFields) {
+    if (cfg.formSubmitTo) {
       formBusy = true;
       submitBtn.disabled = true;
       showFormNote("문의를 접수하는 중입니다.", true);
-      submitToGoogleForm(data)
+      submitToFormSubmit(data)
         .then(function () {
           form.reset();
           clearFieldErrors();
@@ -343,14 +311,9 @@
       return;
     }
 
-    if (cfg.googleFormUrl) {
-      window.open(cfg.googleFormUrl, "_blank", "noopener");
-      return;
-    }
-
     if (!email) {
       showFormNote(
-        "대표 이메일이 등록되면 접수가 시작됩니다. assets/config.js의 email 또는 googleFormUrl을 입력해 주세요.",
+        "대표 이메일이 등록되면 접수가 시작됩니다. assets/config.js의 formSubmitTo 또는 email을 입력해 주세요.",
         false
       );
       return;

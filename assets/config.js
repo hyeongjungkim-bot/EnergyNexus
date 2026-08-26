@@ -12,18 +12,8 @@ window.ENERGY_NEXUS = {
     { label: "HQ", address: "강원특별자치도 강릉시 하평5길 7-1, 1층" },
     { label: "SEOUL", address: "서울특별시 송파구 송파대로 201, A동 416호" },
   ],
-  googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/viewform",
-  googleFormAction:
-    "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/formResponse",
-  googleFormFields: {
-    name: "entry.683550231",
-    org: "entry.1032001098",
-    email: "entry.859252797",
-    phone: "entry.1312772091",
-    type: "entry.1830965311",
-    message: "entry.1250138803",
-    agree: "entry.813720148",
-  },
-  googleFormAgreeValue: "[필수] 문의 처리를 위한 개인정보 수집 및 이용에 동의합니다.",
+  // 문의하기 폼은 formsubmit.co(https://formsubmit.co)로 접수됩니다.
+  // 이 주소로 처음 접수되는 메일은 formsubmit.co가 보내는 활성화 메일을 먼저 확인해야 합니다.
+  formSubmitTo: "contact@energynexus.kr",
   insightLinks: ["", "", ""],
 };

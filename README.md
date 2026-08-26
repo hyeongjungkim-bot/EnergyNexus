@@ -18,7 +18,7 @@ python3 -m http.server 4173
 
 - `email`, `bizNumber`, `offices` (지점 목록: `label` · `address`)
 - 인사이트 원문 주소: `insightLinks`
-- Google 설문지: `googleFormUrl` · `googleFormAction` · `googleFormFields` (문의 화면에서 바로 접수)
+- 문의하기 폼 수신 주소: `formSubmitTo` ([formsubmit.co](https://formsubmit.co)로 접수, 페이지 이동 없이 처리됩니다). 새 수신 주소는 첫 접수 시 formsubmit.co가 보내는 활성화 메일을 확인해야 이후 메일이 정상 전달됩니다.
 
 값이 비어 있으면 화면에 “준비 중”으로 표시됩니다.
 

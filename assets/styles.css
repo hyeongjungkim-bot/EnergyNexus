@@ -736,14 +736,6 @@ p {
   color: var(--teal-deep);
 }
 
-.google-form-frame {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 0;
-  visibility: hidden;
-}
-
 .site-footer {
   background: #08141c;
   color: rgba(251, 248, 242, 0.72);
