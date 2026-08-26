@@ -106,29 +106,10 @@ p {
   min-width: 0;
 }
 
-.brand-mark {
-  width: 28px;
-  height: 28px;
-  color: var(--copper);
+.brand-logo {
+  height: 34px;
+  width: auto;
   flex: none;
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.brand-en {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.brand-ko {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: rgba(251, 248, 242, 0.62);
 }
 
 .nav {
