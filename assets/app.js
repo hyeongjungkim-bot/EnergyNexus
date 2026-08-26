@@ -30,7 +30,7 @@
   const pending = "준비 중";
   const email = (cfg.email || "").trim();
   const bizNumber = (cfg.bizNumber || "").trim();
-  const address = [cfg.address, cfg.addressDetail].filter(Boolean).join(" ");
+  const offices = Array.isArray(cfg.offices) ? cfg.offices.filter(function (o) { return o && o.address; }) : [];
 
   function textOrPending(value) {
     return value || pending;
@@ -39,10 +39,14 @@
   function renderContactMeta() {
     const root = document.getElementById("contact-meta");
     if (!root) return;
-    const rows = [
-      ["이메일", email ? '<a href="mailto:' + email + '">' + email + "</a>" : pending],
-      ["본점", address || pending],
-    ];
+    const rows = [["이메일", email ? '<a href="mailto:' + email + '">' + email + "</a>" : pending]];
+    if (offices.length) {
+      offices.forEach(function (office) {
+        rows.push([office.label || "본점", office.address]);
+      });
+    } else {
+      rows.push(["본점", pending]);
+    }
     root.innerHTML = rows
       .map(function (row) {
         return "<div><dt>" + row[0] + "</dt><dd>" + row[1] + "</dd></div>";
@@ -56,8 +60,6 @@
     legal.innerHTML = [
       (cfg.company || "㈜에너지넥서스") + "  |  대표이사 " + (cfg.ceo || "김형중"),
       "사업자등록번호  " + textOrPending(bizNumber),
-      "본점  " + textOrPending(address),
-      "이메일  " + textOrPending(email),
     ].join("<br />");
   }
 

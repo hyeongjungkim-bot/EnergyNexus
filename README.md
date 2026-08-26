@@ -16,7 +16,7 @@ python3 -m http.server 4173
 
 `assets/config.js` 만 수정하면 됩니다.
 
-- `email`, `bizNumber`, `addressDetail`
+- `email`, `bizNumber`, `offices` (지점 목록: `label` · `address`)
 - 인사이트 원문 주소: `insightLinks`
 - Google 설문지: `googleFormUrl` · `googleFormAction` · `googleFormFields` (문의 화면에서 바로 접수)
 

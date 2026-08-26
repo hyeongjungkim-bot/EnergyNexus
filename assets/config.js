@@ -7,9 +7,11 @@ window.ENERGY_NEXUS = {
   company: "㈜에너지넥서스",
   ceo: "김형중",
   email: "energynexus@energynexus.kr",
-  bizNumber: "000-00-00000",
-  address: "강원특별자치도 강릉시",
-  addressDetail: "",
+  bizNumber: "282-87-03783",
+  offices: [
+    { label: "HQ", address: "강원특별자치도 강릉시 하평5길 7-1, 1층" },
+    { label: "SEOUL", address: "서울특별시 송파구 송파대로 201, A동 416호" },
+  ],
   googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/viewform",
   googleFormAction:
     "https://docs.google.com/forms/d/e/1FAIpQLSehrVC28O0TsfrhHbXg6JAgaAqX98ZPKW1oDIEn5mRxoVfdqQ/formResponse",
