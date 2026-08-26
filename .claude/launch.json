@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "energy-nexus-local",
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "C:\\Homepage\\EnergyNexus\\.claude\\simple-server.ps1"],
+      "port": 4173
+    }
+  ]
+}
