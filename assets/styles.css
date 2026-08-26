@@ -194,13 +194,6 @@ p {
   margin-left: max(20px, calc((100% - var(--max)) / 2));
 }
 
-.hero-kicker {
-  color: var(--copper);
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 .hero-wordmark {
   display: block;
   margin: 18px 0 16px;
