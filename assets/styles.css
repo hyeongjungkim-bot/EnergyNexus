@@ -482,7 +482,6 @@ p {
 .competency-card {
   background: var(--white);
   border: 1px solid var(--line);
-  border-top: 3px solid var(--teal);
   padding: 28px 24px;
 }
 
@@ -511,15 +510,20 @@ p {
   margin: 32px 0 0;
   padding-top: 28px;
   border-top: 1px solid var(--line);
-  font-family: var(--serif);
-  font-size: 18px;
-  line-height: 1.6;
-  color: var(--navy);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 44em;
 }
 
 .competency-summary strong {
-  color: var(--teal-deep);
+  color: var(--navy);
   font-weight: 600;
+}
+
+.services {
+  background: var(--white);
+  border-block: 1px solid var(--line);
 }
 
 .service-grid {
