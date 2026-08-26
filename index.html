@@ -95,29 +95,24 @@
           </div>
         </div>
         <aside class="hero-aside" aria-hidden="true">
-          <svg class="nexus-art" viewBox="0 0 420 420" role="img">
+          <svg class="nexus-art" viewBox="34 67 191 216" width="191" height="216" role="img">
             <defs>
-              <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#2AA7A1" />
-                <stop offset="1" stop-color="#D4A056" />
+              <linearGradient id="markGlow" x1="62" y1="255" x2="197" y2="95" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#2b6fc7" />
+                <stop offset="1" stop-color="#7ac143" />
               </linearGradient>
             </defs>
-            <g fill="none" stroke="url(#glow)" stroke-width="1.2" opacity="0.9">
-              <path class="pulse-line" d="M70 210H350" />
-              <path class="pulse-line delay" d="M210 70V350" />
-              <path d="M118 118L302 302" />
-              <path d="M302 118L118 302" />
+            <g stroke="#FBF8F2" stroke-width="14" stroke-linecap="round">
+              <line x1="62" y1="95" x2="62" y2="255" />
+              <line x1="197" y1="95" x2="197" y2="255" />
             </g>
-            <circle cx="210" cy="210" r="118" fill="none" stroke="#E7E1D4" stroke-opacity="0.18" />
-            <circle cx="210" cy="210" r="8" fill="#D4A056" />
-            <circle cx="70" cy="210" r="6" fill="#2AA7A1" />
-            <circle cx="350" cy="210" r="6" fill="#2AA7A1" />
-            <circle cx="210" cy="70" r="6" fill="#E7E1D4" />
-            <circle cx="210" cy="350" r="6" fill="#E7E1D4" />
-            <circle cx="118" cy="118" r="4.5" fill="#2AA7A1" />
-            <circle cx="302" cy="118" r="4.5" fill="#D4A056" />
-            <circle cx="118" cy="302" r="4.5" fill="#D4A056" />
-            <circle cx="302" cy="302" r="4.5" fill="#2AA7A1" />
+            <line class="pulse-line" x1="62" y1="255" x2="197" y2="95" stroke="url(#markGlow)" stroke-width="14" stroke-linecap="round" />
+            <g fill="#FBF8F2">
+              <circle class="mark-node" cx="62" cy="95" r="18" />
+              <circle class="mark-node" style="animation-delay: 0.5s" cx="62" cy="255" r="18" />
+              <circle class="mark-node" style="animation-delay: 1s" cx="197" cy="95" r="18" />
+              <circle class="mark-node" style="animation-delay: 1.5s" cx="197" cy="255" r="18" />
+            </g>
           </svg>
         </aside>
       </section>

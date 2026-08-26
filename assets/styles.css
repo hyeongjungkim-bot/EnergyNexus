@@ -241,6 +241,7 @@ p {
 
 .nexus-art {
   width: min(420px, 86%);
+  height: auto;
   opacity: 0.95;
 }
 
@@ -249,14 +250,27 @@ p {
   animation: dash 18s linear infinite;
 }
 
-.pulse-line.delay {
-  animation-duration: 24s;
-  animation-direction: reverse;
-}
-
 @keyframes dash {
   to {
     stroke-dashoffset: -240;
+  }
+}
+
+.mark-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: markPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes markPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.82);
   }
 }
 
@@ -922,7 +936,8 @@ p {
     scroll-behavior: auto;
   }
 
-  .pulse-line {
+  .pulse-line,
+  .mark-node {
     animation: none;
   }
 }
