@@ -15,5 +15,9 @@ window.ENERGY_NEXUS = {
   // 문의하기 폼은 formsubmit.co(https://formsubmit.co)로 접수됩니다.
   // 이 주소로 처음 접수되는 메일은 formsubmit.co가 보내는 활성화 메일을 먼저 확인해야 합니다.
   formSubmitTo: "contact@energynexus.kr",
-  insightLinks: ["", "", ""],
+  insightLinks: [
+    "https://www.linkedin.com/feed/update/urn:li:activity:7490231028884721665/",
+    "https://www.joongang.co.kr/article/25448673",
+    "https://www.electimes.com/news/articleView.html?idxno=370322",
+  ],
 };
